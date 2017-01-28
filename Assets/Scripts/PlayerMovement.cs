@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-	Rigidbody2D rb2d;
-	Animator animator;
+	Rigidbody2D rb2d; //rigid body for adding velocity and force
+	Animator animator; //animator to change state
+
+	public Transform isGround; //Sends out raycast to detect ground
+
 	public float speed = 1; //Speed to move horizontally
-	public float MaxJumpTime = 2f; //Cooldown for jump
+	public bool canJump = false;
 	public float JumpForce; //Force of jump
 
-	public Transform isGround;
-
-	bool isGrounded = false;
+	bool isGrounded = false; 
 
 	private float movex; //Movement speed in x direction
-
 
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
@@ -29,11 +29,9 @@ public class PlayerMovement : MonoBehaviour {
 		movex = Input.GetAxis ("Horizontal");
 		rb2d.velocity = new Vector2(movex * speed, rb2d.velocity.y);
 
+		jump (); //Checks if should jump or not
 
-		float movey = Input.GetAxis ("Vertical");
-		rb2d.AddForce (new Vector2 (0, movey * JumpForce));
 
-		isGrounded = Physics2D.Raycast(isGround.position, -Vector2.up, 0.1f);
 //		Debug.DrawLine(isGround.position, new Vector3 (isGround.position.x, -.5f,0), Color.red);
 //		Debug.Log (isGrounded);
 
@@ -46,4 +44,12 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
+	void jump() {
+
+		isGrounded = Physics2D.Raycast(isGround.position, -Vector2.up, 0.1f);
+		if (isGrounded) {
+			float movey = Input.GetAxis ("Vertical");
+			rb2d.AddForce (new Vector2 (0, movey * JumpForce));
+		}
+	}
 }
