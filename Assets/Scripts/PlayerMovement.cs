@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-	Rigidbody2D rb2d;
-	Animator animator;
+	Rigidbody2D rb2d; //rigid body for adding velocity and force
+	Animator animator; //animator to change state
+
+	public Transform isGround; //Sends out raycast to detect ground
+	private Transform knife;
 	public float speed = 1; //Speed to move horizontally
-	public float MaxJumpTime = 2f; //Cooldown for jump
+	public bool canJump = false;
 	public float JumpForce; //Force of jump
 
-	public Transform isGround;
+	public bool isFacingRight;
 
-	bool isGrounded = false;
+	bool isGrounded = false; 
 
 	private float movex; //Movement speed in x direction
-
 
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
+		knife = this.gameObject.transform.GetChild(0);
+		isFacingRight = true;
 	}
 
 	void Update() {
@@ -30,10 +34,22 @@ public class PlayerMovement : MonoBehaviour {
 		rb2d.velocity = new Vector2(movex * speed, rb2d.velocity.y);
 
 
-		float movey = Input.GetAxis ("Vertical");
-		rb2d.AddForce (new Vector2 (0, movey * JumpForce));
+		if (rb2d.velocity.x < 0 && isFacingRight) {
+			//rotate knife
+			knife.Rotate(Vector3.forward * -180);
+			isFacingRight = false;
+			knife.transform.position = knife.transform.position + new Vector3(-.64f, 0, 0);
+		}
 
-		isGrounded = Physics2D.Raycast(isGround.position, -Vector2.up, 0.1f);
+		if (rb2d.velocity.x > 0 && !isFacingRight) {
+			isFacingRight = true;
+			knife.Rotate(Vector3.forward * -180);
+			knife.transform.position = knife.transform.position + new Vector3(.64f, 0, 0);
+		}
+
+		jump (); //Checks if should jump or not
+
+
 //		Debug.DrawLine(isGround.position, new Vector3 (isGround.position.x, -.5f,0), Color.red);
 //		Debug.Log (isGrounded);
 
@@ -46,4 +62,12 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
+	void jump() {
+
+		isGrounded = Physics2D.Raycast(isGround.position, -Vector2.up, 0.1f);
+		if (isGrounded) {
+			float movey = Input.GetAxis ("Vertical");
+			rb2d.AddForce (new Vector2 (0, movey * JumpForce));
+		}
+	}
 }
