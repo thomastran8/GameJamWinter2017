@@ -6,6 +6,8 @@ public class EnemyMovement : MonoBehaviour {
     public float movespeed;
     public float climbspeed;
     public float climbDetectDistance;
+    public GameObject rangeAttackObject;
+    private SpriteRenderer rangeSprRend;
     private Transform playerTf;
     private Rigidbody2D rb;
     private bool facingRight;
@@ -17,6 +19,7 @@ public class EnemyMovement : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         facingRight = true;
         sprRend = GetComponent<SpriteRenderer>();
+        rangeSprRend = rangeAttackObject.GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -76,5 +79,10 @@ public class EnemyMovement : MonoBehaviour {
     {
         sprRend.flipX = !sprRend.flipX;
         facingRight = !facingRight;
+        if (rangeSprRend)
+        {
+            rangeSprRend.flipX = !rangeSprRend.flipX;
+            rangeSprRend.transform.localPosition = new Vector3(rangeSprRend.transform.localPosition.x * -1, rangeSprRend.transform.localPosition.y, rangeSprRend.transform.localPosition.z);
+        }
     }
 }
