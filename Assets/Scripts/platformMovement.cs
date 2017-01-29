@@ -26,8 +26,6 @@ public class platformMovement : MonoBehaviour {
 			isMovingUp = 1;
 		}
 
-		Debug.Log ("original y: " + originalPosition.y + " current pos:" + transform.position.y);
-
 		transform.position = new Vector3 (transform.position.x, transform.position.y + (speed * isMovingUp), transform.position.z);
 	}
 }

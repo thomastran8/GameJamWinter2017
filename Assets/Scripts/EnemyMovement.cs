@@ -12,6 +12,7 @@ public class EnemyMovement : MonoBehaviour {
     private Rigidbody2D rb;
     private bool facingRight;
     private SpriteRenderer sprRend;
+    private bool isActivated;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +22,7 @@ public class EnemyMovement : MonoBehaviour {
         sprRend = GetComponent<SpriteRenderer>();
         if (rangeAttackObject)
             rangeSprRend = rangeAttackObject.GetComponent<SpriteRenderer>();
+        isActivated = false;
 	}
 	
 	// Update is called once per frame
@@ -30,6 +32,9 @@ public class EnemyMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (!isActivated)
+            return;
+
         if (playerTf == null)
             return;
 
@@ -85,5 +90,10 @@ public class EnemyMovement : MonoBehaviour {
             rangeSprRend.flipX = !rangeSprRend.flipX;
             rangeSprRend.transform.localPosition = new Vector3(rangeSprRend.transform.localPosition.x * -1, rangeSprRend.transform.localPosition.y, rangeSprRend.transform.localPosition.z);
         }
+    }
+
+    public void setFollow(bool activeState)
+    {
+        isActivated = activeState;
     }
 }
