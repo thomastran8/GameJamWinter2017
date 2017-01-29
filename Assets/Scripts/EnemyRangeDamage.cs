@@ -21,6 +21,5 @@ public class EnemyRangeDamage : MonoBehaviour {
         {
             other.gameObject.GetComponent<Health>().takeDamage(rangeDamage);
         }
-        Debug.Log("HELLO");
     }
 }

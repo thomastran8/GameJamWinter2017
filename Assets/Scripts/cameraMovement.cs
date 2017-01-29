@@ -18,6 +18,10 @@ public class cameraMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (playerPosition == null)
+        {
+            return;
+        }
 		playerPosition = playerTransform.position;
 		transform.position = playerPosition + offset;
 		transform.position = new Vector3 (transform.position.x, transform.position.y, -10);
