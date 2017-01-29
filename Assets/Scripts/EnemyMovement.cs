@@ -14,6 +14,9 @@ public class EnemyMovement : MonoBehaviour {
 	private SpriteRenderer sprRend;
 	private bool isActivated;
 
+
+
+	private bool celebrating = false;
 	// Use this for initialization
 	void Start () {
 		playerTf = GameObject.FindGameObjectWithTag("Player").transform;
@@ -32,6 +35,11 @@ public class EnemyMovement : MonoBehaviour {
 
 	void FixedUpdate()
 	{
+
+		if (!GameObject.Find ("Player") && !celebrating) {
+			celebrating = true;
+			StartCoroutine (celebrate());
+		}
 		if (!isActivated)
 			return;
 
@@ -95,5 +103,13 @@ public class EnemyMovement : MonoBehaviour {
 	public void setFollow(bool activeState)
 	{
 		isActivated = activeState;
+	}
+
+	IEnumerator celebrate(){
+
+		while (true) {
+			rb.AddForce (new Vector2 (2.0f, climbspeed* 6 * Random.value));
+			yield return new WaitForSeconds (.5f);
+		}
 	}
 }

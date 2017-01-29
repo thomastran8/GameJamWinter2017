@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour {
 
+	private Vector3 originalPosition;
 	private bool isAttacking;
 	public float maxThrowingTime;
 	private float endThrowingTime;

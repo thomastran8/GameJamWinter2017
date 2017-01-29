@@ -28,16 +28,11 @@ public class Health : MonoBehaviour {
     {
         if (currentHealth <= 0)
         {
-			
+
             Destroy(gameObject);
-			if (tag == "Player") {
-				StartCoroutine (restart ());
-			}
+
         }
     }
 
-	IEnumerator restart() {
-		yield return new WaitForSeconds (3);
-		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
-	}
+
 }
