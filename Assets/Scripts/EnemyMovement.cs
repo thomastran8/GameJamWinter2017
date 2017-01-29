@@ -26,6 +26,9 @@ public class EnemyMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (playerTf == null)
+            return;
+
         float positionDifference = playerTf.position.x - transform.position.x;
 
         if (positionDifference >= 0)

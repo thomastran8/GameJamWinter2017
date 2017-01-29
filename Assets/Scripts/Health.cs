@@ -13,7 +13,7 @@ public class Health : MonoBehaviour {
 
     void Update()
     {
-        Debug.Log(currentHealth);
+
     }
 
     public void takeDamage(int damage)
