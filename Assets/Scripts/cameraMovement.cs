@@ -5,17 +5,21 @@ using UnityEngine;
 public class cameraMovement : MonoBehaviour {
 
 
-	Vector3 playerTransform;
+	public Transform playerTransform;
+
+	private Vector3 playerPosition;
+
 	Vector3 offset;
 	// Use this for initialization
 	void Start () {
-		playerTransform = transform.parent.gameObject.transform.position;
-		offset = transform.position - playerTransform;
+		playerPosition = playerTransform.position;
+		offset = transform.position - playerPosition;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = playerTransform + offset;
+		playerPosition = playerTransform.position;
+		transform.position = playerPosition + offset;
 		transform.position = new Vector3 (transform.position.x, transform.position.y, -10);
 	}
 }
