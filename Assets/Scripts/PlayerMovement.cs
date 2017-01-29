@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void Update() {
+		transform.position = transform.position + Vector3.zero;
 		transform.rotation = (Quaternion.identity);
 	}
 
