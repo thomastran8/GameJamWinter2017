@@ -38,7 +38,7 @@ public class teleporter : MonoBehaviour {
 
 		}
 
-		Debug.Log ("Charging. Time left:" + (Time.time) + " " + teleportTime);
+		//Debug.Log ("Charging. Time left:" + (Time.time) + " " + teleportTime);
 
 	}
 }
