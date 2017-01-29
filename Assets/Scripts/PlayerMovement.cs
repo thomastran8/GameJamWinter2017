@@ -58,7 +58,6 @@ public class PlayerMovement : MonoBehaviour {
 
 		isGrounded = Physics2D.Raycast(isGround.position, -Vector2.up, 0.2f);
 		if (isGrounded && (Input.GetAxis ("Vertical") != 0)) {
-			Debug.Log (JumpForce);
 			rb2d.AddForce (new Vector2 (0, JumpForce));
 		}
 	}
