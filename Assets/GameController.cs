@@ -18,6 +18,10 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerExit2D(Collider2D other) {
+		Destroy(other.gameObject);
+	}
+
 	IEnumerator restart() {
 		yield return new WaitForSeconds (3);
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);

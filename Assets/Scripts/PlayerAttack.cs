@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if ((Input.GetAxis ("Jump") != 0) && !isAttacking) {
+		if ((Input.GetAxis ("Vertical") != 0) && !isAttacking) {
 			originalPosition = transform.localPosition;
 			isAttacking = true;
 			attack ();

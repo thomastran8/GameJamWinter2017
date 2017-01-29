@@ -15,7 +15,7 @@ public class teleporter : MonoBehaviour {
 
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.tag == "Player") {
+		if (other.tag == "Player" || other.tag == "Enemy") {
 			if (!isCharging) {
 				isCharging = true;
 				teleportTime = Time.time + chargingTime;
@@ -25,7 +25,7 @@ public class teleporter : MonoBehaviour {
 	}
 		
 	void OnTriggerExit2D(Collider2D other) {
-		if (other.tag == "Player") {
+		if (other.tag == "Player" || other.tag == "Enemy") {
 			isCharging = false;
 		}
 	}
