@@ -19,7 +19,8 @@ public class EnemyMovement : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         facingRight = true;
         sprRend = GetComponent<SpriteRenderer>();
-        rangeSprRend = rangeAttackObject.GetComponent<SpriteRenderer>();
+        if (rangeAttackObject)
+            rangeSprRend = rangeAttackObject.GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -79,7 +80,7 @@ public class EnemyMovement : MonoBehaviour {
     {
         sprRend.flipX = !sprRend.flipX;
         facingRight = !facingRight;
-        if (rangeSprRend)
+        if (rangeAttackObject)
         {
             rangeSprRend.flipX = !rangeSprRend.flipX;
             rangeSprRend.transform.localPosition = new Vector3(rangeSprRend.transform.localPosition.x * -1, rangeSprRend.transform.localPosition.y, rangeSprRend.transform.localPosition.z);
