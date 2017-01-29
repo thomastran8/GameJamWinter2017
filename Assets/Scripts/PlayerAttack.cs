@@ -14,7 +14,7 @@ public class PlayerAttack : MonoBehaviour {
 	//timeStamp = Time.time + coolDownPeriodInSeconds;
 	// Use this for initialization
 	void Start () {
-		originalPosition = transform.localPosition;
+		
 		isAttacking = false;
 	}
 
@@ -22,8 +22,8 @@ public class PlayerAttack : MonoBehaviour {
 	void Update () {
 		
 		if ((Input.GetAxis ("Jump") != 0) && !isAttacking) {
+			originalPosition = transform.localPosition;
 			isAttacking = true;
-
 			attack ();
 		}
 //		if (currentCoolDown <= 0) {
@@ -38,38 +38,41 @@ public class PlayerAttack : MonoBehaviour {
 
 
 	void attack() {
+
+		bool isFacingRight = transform.parent.GetComponent<PlayerMovement>().isFacingRight;
+		if (isFacingRight) {
+			StartCoroutine( stab (1));
+		} else {
+			StartCoroutine( stab (-1));
+		}
 		//originalPosition = transform.position;
-		StartCoroutine( stab ());
+
 	}
 
-	IEnumerator stab() {
+	IEnumerator stab(int direction) {
 		endThrowingTime = Time.time + maxThrowingTime;
 		while (Time.time < endThrowingTime) {
-			Debug.Log("FirstCoroutine running:" + Time.time + " " + endThrowingTime);
-			transform.position = new Vector2(transform.position.x + throwingSpeed, transform.position.y);
+			transform.position = new Vector2(transform.position.x + (throwingSpeed * direction), transform.position.y);
 			yield return new WaitForEndOfFrame ();
 				
 		}
 
-
-		Debug.Log("FirstCoroutine finished:" + Time.time);
-		//endThrowingTime = Time.time + maxThrowingTime;
-		StartCoroutine(returnStab());
+	
+		StartCoroutine(returnStab(direction));
 
 	}
 
-	IEnumerator returnStab() {
-		Debug.Log("SecondCoroutine running:" + Time.time);
+	IEnumerator returnStab(int direction) {
+		
 		endThrowingTime = Time.time + maxThrowingTime;
 		while (Time.time < endThrowingTime) {
-			Debug.Log("FirstCoroutine running:" + Time.time + " " + endThrowingTime);
-			transform.position = new Vector2(transform.position.x - throwingSpeed, transform.position.y);
+			
+			transform.position = new Vector2(transform.position.x - (throwingSpeed * direction), transform.position.y);
 			yield return new WaitForEndOfFrame ();
 
 		}
 		transform.localPosition = originalPosition;
 		isAttacking = false;
-		Debug.Log("SecondCoroutine finished:" + Time.time);
 	}
 }
 

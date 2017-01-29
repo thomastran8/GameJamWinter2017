@@ -7,10 +7,12 @@ public class PlayerMovement : MonoBehaviour {
 	Animator animator; //animator to change state
 
 	public Transform isGround; //Sends out raycast to detect ground
-
+	private Transform knife;
 	public float speed = 1; //Speed to move horizontally
 	public bool canJump = false;
 	public float JumpForce; //Force of jump
+
+	public bool isFacingRight;
 
 	bool isGrounded = false; 
 
@@ -19,6 +21,8 @@ public class PlayerMovement : MonoBehaviour {
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
+		knife = this.gameObject.transform.GetChild(0);
+		isFacingRight = true;
 	}
 
 	void Update() {
@@ -28,6 +32,20 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate () {
 		movex = Input.GetAxis ("Horizontal");
 		rb2d.velocity = new Vector2(movex * speed, rb2d.velocity.y);
+
+
+		if (rb2d.velocity.x < 0 && isFacingRight) {
+			//rotate knife
+			knife.Rotate(Vector3.forward * -180);
+			isFacingRight = false;
+			knife.transform.position = knife.transform.position + new Vector3(-.64f, 0, 0);
+		}
+
+		if (rb2d.velocity.x > 0 && !isFacingRight) {
+			isFacingRight = true;
+			knife.Rotate(Vector3.forward * -180);
+			knife.transform.position = knife.transform.position + new Vector3(.64f, 0, 0);
+		}
 
 		jump (); //Checks if should jump or not
 
