@@ -26,14 +26,6 @@ public class PlayerAttack : MonoBehaviour {
 			isAttacking = true;
 			attack ();
 		}
-//		if (currentCoolDown <= 0) {
-//			if (Input.GetAxis ("Jump")) {
-//				attack()
-//			}
-//
-//		} else {
-//			currentCoolDown 
-//		}
 	}
 
 
@@ -71,7 +63,13 @@ public class PlayerAttack : MonoBehaviour {
 			yield return new WaitForEndOfFrame ();
 
 		}
-		transform.localPosition = originalPosition;
+	//	transform.localPosition = originalPosition;
+		bool isFacingRight = transform.parent.GetComponent<PlayerMovement>().isFacingRight;
+		if (isFacingRight) {
+			transform.localPosition = new Vector3 (.34f, 0f, 0f);
+		} else {
+			transform.localPosition = new Vector3 (-.34f, 0f, 0f);
+		}
 		isAttacking = false;
 	}
 }

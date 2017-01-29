@@ -26,14 +26,43 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void Update() {
-
+		transform.rotation = (Quaternion.identity);
 	}
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		movex = Input.GetAxis ("Horizontal");
 		rb2d.velocity = new Vector2(movex * speed, rb2d.velocity.y);
+	
+		knifePosition ();//rotates knife if needed
+		jump (); //Checks if should jump or not
+		setAnimations ();//Plays correct animation
 
 
+//		Debug.DrawLine(isGround.position, new Vector3 (isGround.position.x, -.5f,0), Color.red);
+//		Debug.Log (isGrounded);
+
+
+	}
+
+	void setAnimations() {
+		if (movex == 0) {
+			animator.SetBool ("isIdle", true);
+		} else {
+			animator.SetBool ("isIdle", false);
+			animator.SetFloat("xvelocity",rb2d.velocity.x);
+		}
+	}
+
+	void jump() {
+
+		isGrounded = Physics2D.Raycast(isGround.position, -Vector2.up, 0.2f);
+		if (isGrounded && (Input.GetAxis ("Vertical") != 0)) {
+			rb2d.AddForce (new Vector2 (0, JumpForce));
+		}
+	}
+
+	void knifePosition() {
 		if (rb2d.velocity.x < 0 && isFacingRight) {
 			//rotate knife
 			knife.Rotate(Vector3.forward * -180);
@@ -45,29 +74,6 @@ public class PlayerMovement : MonoBehaviour {
 			isFacingRight = true;
 			knife.Rotate(Vector3.forward * -180);
 			knife.transform.position = knife.transform.position + new Vector3(.64f, 0, 0);
-		}
-
-		jump (); //Checks if should jump or not
-
-
-//		Debug.DrawLine(isGround.position, new Vector3 (isGround.position.x, -.5f,0), Color.red);
-//		Debug.Log (isGrounded);
-
-
-		if (movex == 0) {
-			animator.SetBool ("isIdle", true);
-		} else {
-			animator.SetBool ("isIdle", false);
-			animator.SetFloat("xvelocity",rb2d.velocity.x);
-		}
-	}
-
-	void jump() {
-
-		isGrounded = Physics2D.Raycast(isGround.position, -Vector2.up, 0.1f);
-		if (isGrounded) {
-			float movey = Input.GetAxis ("Vertical");
-			rb2d.AddForce (new Vector2 (0, movey * JumpForce));
 		}
 	}
 }
